@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Productivity Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <h1><i class="fas fa-tasks"></i> Productivity Dashboard</h1>
+            <h2 id="modalTitle">Login</h2>
+            <form id="authForm">
+                <input type="text" id="username" placeholder="Username" required autocomplete="username">
+                <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" id="authButton">Login</button>
+            </form>
+            <p class="switch-mode">
+                <a href="#" id="switchLink">Switch to Signup</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const title = document.getElementById('modalTitle');
+        const button = document.getElementById('authButton');
+        const switchLink = document.getElementById('switchLink');
+        const form = document.getElementById('authForm');
+
+        switchLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (title.textContent === 'Login') {
+                title.textContent = 'Signup';
+                button.textContent = 'Signup';
+                switchLink.textContent = 'Switch to Login';
+            } else {
+                title.textContent = 'Login';
+                button.textContent = 'Login';
+                switchLink.textContent = 'Switch to Signup';
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const mode = title.textContent;
+
+            if (!username || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            if (mode === 'Login') {
+                if (localStorage.getItem('username') === username && 
+                    localStorage.getItem('password') === password) {
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Invalid credentials');
+                }
+            } else {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                alert('Account created successfully! Logging you in...');
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
